@@ -9,6 +9,7 @@ version = "0.0.1-SNAPSHOT"
 
 dependencies {
 	implementation(project(":entity-module"))
+	implementation(project(":security-common"))
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	runtimeOnly("org.postgresql:postgresql")
