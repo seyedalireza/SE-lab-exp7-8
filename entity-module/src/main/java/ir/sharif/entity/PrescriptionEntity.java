@@ -14,14 +14,13 @@ public class PrescriptionEntity {
     private Long id;
 
     @ManyToOne(optional = false)
-    private DoctorEntity doctorEntity;
+    private UserEntity doctorEntity;
 
     @ManyToOne(optional = false)
-    private PatientEntity patientEntity;
+    private UserEntity patientEntity;
 
     private String medicines;
     private String comment;
-
 
     public Long getId() {
         return id;
@@ -32,20 +31,20 @@ public class PrescriptionEntity {
         return this;
     }
 
-    public DoctorEntity getDoctorEntity() {
+    public UserEntity getDoctorEntity() {
         return doctorEntity;
     }
 
-    public PrescriptionEntity setDoctorEntity(DoctorEntity doctorEntity) {
+    public PrescriptionEntity setDoctorEntity(UserEntity doctorEntity) {
         this.doctorEntity = doctorEntity;
         return this;
     }
 
-    public PatientEntity getPatientEntity() {
+    public UserEntity getPatientEntity() {
         return patientEntity;
     }
 
-    public PrescriptionEntity setPatientEntity(PatientEntity patientEntity) {
+    public PrescriptionEntity setPatientEntity(UserEntity patientEntity) {
         this.patientEntity = patientEntity;
         return this;
     }

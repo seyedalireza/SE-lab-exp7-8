@@ -13,6 +13,9 @@ public class UserEntity {
     private String name;
     private String nationalCode;
 
+    private boolean isDoctor;
+    private boolean isPatient;
+
     public String getUsername() {
         return username;
     }
@@ -46,6 +49,24 @@ public class UserEntity {
 
     public UserEntity setNationalCode(String nationalCode) {
         this.nationalCode = nationalCode;
+        return this;
+    }
+
+    public boolean isDoctor() {
+        return isDoctor;
+    }
+
+    public UserEntity setDoctor(boolean doctor) {
+        isDoctor = doctor;
+        return this;
+    }
+
+    public boolean isPatient() {
+        return isPatient;
+    }
+
+    public UserEntity setPatient(boolean patient) {
+        isPatient = patient;
         return this;
     }
 
