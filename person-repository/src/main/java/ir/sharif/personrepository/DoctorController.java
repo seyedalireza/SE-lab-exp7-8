@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/doctor")
@@ -47,7 +48,7 @@ public class DoctorController {
 
     @GetMapping("/profile")
     @Secured("DOCTOR")
-    public Doctor getProfile(@AuthenticationPrincipal User user) {
+    public Doctor getProfile(@ApiIgnore @AuthenticationPrincipal User user) {
         UserEntity userEntity = getUser(user.getUsername());
         return new Doctor()
             .setName(userEntity.getName())
@@ -66,7 +67,7 @@ public class DoctorController {
 
     @PostMapping("/prescription")
     @Secured("DOCTOR")
-    public void addPrescription(@AuthenticationPrincipal User user, @RequestBody InsertPrescriptionRequest request) {
+    public void addPrescription(@ApiIgnore @AuthenticationPrincipal User user, @RequestBody InsertPrescriptionRequest request) {
         UserEntity doctor = getUser(user.getUsername());
         UserEntity patient = getUser(request.getPatientUsername());
 

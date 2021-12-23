@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: admin
+          uri: http://admin:8070/
+          predicates:
+            - Path=/admin/**
+        - id: person-rep
+          uri: http://person-rep:8090/
+          predicates:
+            - Path=/**
+
+          

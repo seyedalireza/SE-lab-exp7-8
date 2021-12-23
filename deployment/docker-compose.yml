@@ -14,15 +14,22 @@ services:
     image: sharif/gateway
     ports:
       - '8080:8080'
+    depends_on:
+      - db
   person-rep:
     image: sharif/person-repository
     ports:
       - '8090:8090'
+    depends_on:
+      - db
 
-  person-admin:
+  admin:
     image: sharif/admin
     ports:
       - '8070:8070'
+    depends_on:
+      - db
+      - person-rep
 volumes:
   postgres-sharif-storage:
 

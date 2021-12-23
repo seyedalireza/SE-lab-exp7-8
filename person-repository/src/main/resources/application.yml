@@ -14,11 +14,15 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: root
     password: root
-    url: jdbc:postgresql://localhost:5432/sharif
+    url: jdbc:postgresql://db:5432/sharif
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 security:
   admin:
     password: admin
 
 jwt:
-  secret:pdAzWiq7/MQS0xxw+vv486dpivnzI6kCaK7QLCBpXY3NKTda3bblGcMfEM33oV6LLvZqGuoz0gGI5a0lq8PyvLx6ko0aOpjHTdke86emey8LAFJK42oAMEg+9lmrvBSr3dPyAufCpfF+SCEwt8bP8ef3LxL+mf01rQFFv2ofq7OQ80zsnSbrnaneiq+IdNl9fxHMcw1TLykXV9k8K/S4EPREIpPVPFAhYX3/FQ==
+  secret: pdAzWiq7/MQS0xxw+vv486dpivnzI6kCaK7QLCBpXY3NKTda3bblGcMfEM33oV6LLvZqGuoz0gGI5a0lq8PyvLx6ko0aOpjHTdke86emey8LAFJK42oAMEg+9lmrvBSr3dPyAufCpfF+SCEwt8bP8ef3LxL+mf01rQFFv2ofq7OQ80zsnSbrnaneiq+IdNl9fxHMcw1TLykXV9k8K/S4EPREIpPVPFAhYX3/FQ==

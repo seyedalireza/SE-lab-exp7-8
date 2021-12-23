@@ -17,6 +17,7 @@ dependencies {
 	implementation(project(":security-common"))
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-parent:2.5.6")
 	implementation("io.springfox:springfox-boot-starter:3.0.0")
 	implementation("io.springfox:springfox-swagger-ui:2.9.2")
 	runtimeOnly("org.postgresql:postgresql")

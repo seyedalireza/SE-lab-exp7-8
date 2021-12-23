@@ -2,7 +2,7 @@ package ir.sharif.security.service;
 
 
 import ir.sharif.entity.UserEntity;
-import ir.sharif.security.Repository.UserRepository;
+import ir.sharif.security.Repository.UserSecurityRepository;
 import ir.sharif.security.model.Authority;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
-    private UserRepository userRepository;
+    private UserSecurityRepository userSecurityRepository;
 
     @Value("${security.admin.password}")
     private String adminPassword;
@@ -34,7 +34,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             return new User("admin", passwordEncoder.encode(adminPassword),
                 Collections.singleton(Authority.ADMIN));
         } else {
-            Optional<UserEntity> id = userRepository.findById(username);
+            Optional<UserEntity> id = userSecurityRepository.findById(username);
             if (id.isEmpty()) {
                 throw new UsernameNotFoundException("User not found with username: " + username);
             }
