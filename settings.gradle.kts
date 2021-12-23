@@ -1,4 +1,5 @@
 include("admin")
 include("entity-module")
+include("security-common")
 include("gateway")
 include("person-repository")
