@@ -1,6 +1,7 @@
 plugins {
 	id("org.springframework.boot") version "2.6.2"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	id("com.google.cloud.tools.jib") version "3.1.4"
 	java
 }
 
@@ -24,4 +25,17 @@ tasks {
 }
 repositories {
 	mavenCentral()
+}
+
+jib {
+	from {
+		image = "adoptopenjdk/openjdk11:jre-11.0.10_9-ubuntu"
+	}
+	to {
+		image = "sharif/admin"
+		tags = setOf("latest", "$version")
+	}
+	container {
+		mainClass = "ir.sharif.admin.AdminApplication"
+	}
 }

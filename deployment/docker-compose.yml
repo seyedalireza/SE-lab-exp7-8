@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: postgres:10
+    volumes:
+      - postgres-sharif-storage:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=sharif
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+  gateway:
+    image: sharif/gateway
+    ports:
+      - '8080:8080'
+  person-rep:
+    image: sharif/person-repository
+    ports:
+      - '8090:8090'
+
+  person-admin:
+    image: sharif/admin
+    ports:
+      - '8070:8070'
+volumes:
+  postgres-sharif-storage:
+
