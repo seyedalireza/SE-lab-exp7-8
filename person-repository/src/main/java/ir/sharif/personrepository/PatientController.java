@@ -1,10 +1,15 @@
 package ir.sharif.personrepository;
 
+import ir.sharif.entity.PrescriptionEntity;
 import ir.sharif.entity.UserEntity;
 import ir.sharif.entity.dto.Doctor;
 import ir.sharif.entity.dto.Patient;
+import ir.sharif.entity.dto.Prescription;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +28,9 @@ public class PatientController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PrescriptionRepository prescriptionRepository;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -53,5 +61,30 @@ public class PatientController {
             .setName(userEntity.getName())
             .setNationalCode(userEntity.getNationalCode())
             .setUsername(userEntity.getUsername());
+    }
+
+    @GetMapping("/prescription")
+    @Secured("PATIENT")
+    public List<Prescription> getAllPrescription(@AuthenticationPrincipal User user) {
+        String username = user.getUsername();
+        Optional<UserEntity> userEntityOptional = userRepository.findById(username);
+        if (userEntityOptional.isEmpty()) {
+            throw new AssertionError("Authorization is not working!");
+        }
+        UserEntity userEntity = userEntityOptional.get();
+        List<PrescriptionEntity> prescriptionEntities = prescriptionRepository
+            .findAll(Example.of(new PrescriptionEntity().setPatientEntity(userEntity)));
+
+        return prescriptionEntities.stream()
+            .map(p -> new Prescription().setComment(p.getComment())
+                .setDoctor(toDoctor(p.getDoctorEntity())).setId(p.getId()).setMedicines(p.getMedicines()))
+            .collect(Collectors.toList());
+    }
+
+    private static Doctor toDoctor(UserEntity userEntity) {
+        return new Doctor()
+            .setUsername(userEntity.getUsername())
+            .setNationalCode(userEntity.getNationalCode())
+            .setName(userEntity.getName());
     }
 }

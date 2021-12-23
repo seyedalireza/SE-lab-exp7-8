@@ -1,7 +1,9 @@
 package ir.sharif.personrepository;
 
+import ir.sharif.entity.PrescriptionEntity;
 import ir.sharif.entity.UserEntity;
 import ir.sharif.entity.dto.Doctor;
+import ir.sharif.personrepository.model.InsertPrescriptionRequest;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,9 @@ public class DoctorController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PrescriptionRepository prescriptionRepository;
+
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/signup")
@@ -43,15 +48,33 @@ public class DoctorController {
     @GetMapping("/profile")
     @Secured("DOCTOR")
     public Doctor getProfile(@AuthenticationPrincipal User user) {
-        String username = user.getUsername();
+        UserEntity userEntity = getUser(user.getUsername());
+        return new Doctor()
+            .setName(userEntity.getName())
+            .setNationalCode(userEntity.getNationalCode())
+            .setUsername(userEntity.getUsername());
+    }
+
+    private UserEntity getUser(String username) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(username);
         if (userEntityOptional.isEmpty()) {
             throw new AssertionError("Authorization is not working!");
         }
         UserEntity userEntity = userEntityOptional.get();
-        return new Doctor()
-            .setName(userEntity.getName())
-            .setNationalCode(userEntity.getNationalCode())
-            .setUsername(userEntity.getUsername());
+        return userEntity;
+    }
+
+    @PostMapping("/prescription")
+    @Secured("DOCTOR")
+    public void addPrescription(@AuthenticationPrincipal User user, @RequestBody InsertPrescriptionRequest request) {
+        UserEntity doctor = getUser(user.getUsername());
+        UserEntity patient = getUser(request.getPatientUsername());
+
+        PrescriptionEntity prescriptionEntity = new PrescriptionEntity()
+            .setComment(request.getComment())
+            .setMedicines(request.getMedicines())
+            .setDoctorEntity(doctor)
+            .setPatientEntity(patient);
+        prescriptionRepository.save(prescriptionEntity);
     }
 }
